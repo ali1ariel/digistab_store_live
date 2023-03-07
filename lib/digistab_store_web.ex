@@ -68,7 +68,7 @@ defmodule DigistabStoreWeb do
 
   def html do
     quote do
-      use Phoenix.Component
+      use Phoenix.Component, global_prefixes: ~w(x-)
 
       # Import convenience functions from controllers
       import Phoenix.Controller,

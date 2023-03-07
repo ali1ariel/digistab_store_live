@@ -8,7 +8,7 @@ defmodule DigistabStoreWeb.CoreComponents do
 
   Icons are provided by [heroicons](https://heroicons.com). See `icon/1` for usage.
   """
-  use Phoenix.Component
+  use Phoenix.Component, global_prefixes: ~w(x-)
 
   alias Phoenix.LiveView.JS
   import DigistabStoreWeb.Gettext
