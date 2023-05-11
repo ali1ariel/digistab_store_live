@@ -1,13 +1,11 @@
 <header class="md:mx-10 md:h-20 z-10" x-id="['navbar']" x-data="{ 
     categories: false
     }">
-  <div
-    class="flex md:flex-row flex-col md:h-20 items-center md:justify-between md:items-end border-b border-b-gray-300 shadow-md">
+  <div class="flex md:flex-row flex-col md:h-20 items-center md:justify-between md:items-end border-b border-b-gray-300 shadow-md">
     <div class="flex items-center gap-4 mb-2"><img src={~p"/images/plain_logo.svg"} /></div>
 
     <div class="flex flex-row border-gray-200 space-x-2">
-      <button
-        class="flex flex-row px-4 py-1 space-x-1 text-purple-500 hover:bg-purple-500 hover:text-white hover:cursor-pointer ">
+      <button class="flex flex-row px-4 py-1 space-x-1 text-purple-500 hover:bg-purple-500 hover:text-white hover:cursor-pointer ">
         <p>
           10
         </p>
@@ -15,11 +13,14 @@
           <%= icon(%{name: "hero-shopping-cart"}) %>
         </p>
       </button>
-      <button 
+      <button
         x-ref="button_categories"
-      @click="categories = !categories" @keydown.escape.prevent.stop="categories = false"
-        x-bind:aria-expanded="categories" x-bind:aria-controls="$id('navbar')"
-        class="flex flex-row px-4 py-1 space-x-1 text-purple-500 hover:bg-purple-500 hover:text-white hover:cursor-pointer ">
+        @click="categories = !categories"
+        @keydown.escape.prevent.stop="categories = false"
+        x-bind:aria-expanded="categories"
+        x-bind:aria-controls="$id('navbar')"
+        class="flex flex-row px-4 py-1 space-x-1 text-purple-500 hover:bg-purple-500 hover:text-white hover:cursor-pointer "
+      >
         <p>
           Categories
         </p>
@@ -27,8 +28,7 @@
           <%= icon(%{name: "hero-chevron-down"}) %>
         </p>
       </button>
-      <button
-        class="flex flex-row px-4 pt-1 pb-2 space-x-1 text-purple-500 hover:bg-purple-500 hover:text-white hover:cursor-pointer ">
+      <button class="flex flex-row px-4 pt-1 pb-2 space-x-1 text-purple-500 hover:bg-purple-500 hover:text-white hover:cursor-pointer ">
         <p>
           My account
         </p>
@@ -38,14 +38,18 @@
       </button>
     </div>
   </div>
-  <div 
-    x-bind:id="$id('navbar')" 
-    x-show="categories" 
+  <div
+    x-bind:id="$id('navbar')"
+    x-show="categories"
     x-transition.origin.top.left
-    @click.outside="categories = false" 
+    @click.outside="categories = false"
     class="flex flex-col md:w-fit md:flex-none md:grid md:grid-cols-2 md:gap-x-12 md:gap-y-2 mx-2 px-4 py-2 bg-purple-300 rounded-b-sm shadow-md md:absolute md:right-16"
+  >
+    <a
+      :for={category <- [1, 2, 3, 4, 5, 6, 7, 8, 9]}
+      href={~p"/categories/#{category}"}
+      class="bg-purple-100 hover:bg-gray-200 md:w-48 px-2 py-1 md:text-left text-center rounded-sm border-b"
     >
-    <a href={~p"/categories/#{category}"} class="bg-purple-100 hover:bg-gray-200 md:w-48 px-2 py-1 md:text-left text-center rounded-sm border-b" :for={category <- [1,2,3,4,5,6,7,8,9]}>
       Category <%= category %>
     </a>
   </div>
@@ -62,7 +66,9 @@
       <div class=" flex flex-row mb-8 md:ml-8">
         <div class="flex flex-col items-center justify-center w-96">
           <div class="flex w-72 gap-4 mb-2"><img src={~p"/images/logo.svg"} /></div>
-          <p class="text-justify italic">Digistab Store é uma marca ficcional criada por Alisson Machado apenas para ilustrar habilidades de design e deselvolvimento, portanto, não há nenhuma marca relacionada, que eu saiba.</p>
+          <p class="text-justify italic">
+            Digistab Store é uma marca ficcional criada por Alisson Machado apenas para ilustrar habilidades de design e deselvolvimento, portanto, não há nenhuma marca relacionada, que eu saiba.
+          </p>
         </div>
       </div>
       <div class="flex flex-col md:flex-row md:w-1/2 justify-around">

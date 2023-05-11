@@ -34,6 +34,7 @@ defmodule DigistabStoreWeb.CoreComponents do
       </.modal>
   """
   attr :id, :string, required: true
+  attr :class, :string, default: "max-w-3xl"
   attr :show, :boolean, default: false
   attr :on_cancel, JS, default: %JS{}
   attr :on_confirm, JS, default: %JS{}
@@ -52,7 +53,7 @@ defmodule DigistabStoreWeb.CoreComponents do
       phx-remove={hide_modal(@id)}
       class="relative z-50 hidden"
     >
-      <div id={"#{@id}-bg"} class="fixed inset-0 bg-zinc-50/90 transition-opacity" aria-hidden="true" />
+      <div id={"#{@id}-bg"} class="bg-zinc-50/90 fixed inset-0 transition-opacity" aria-hidden="true" />
       <div
         class="fixed inset-0 overflow-y-auto"
         aria-labelledby={"#{@id}-title"}
@@ -62,26 +63,26 @@ defmodule DigistabStoreWeb.CoreComponents do
         tabindex="0"
       >
         <div class="flex min-h-full items-center justify-center">
-          <div class="w-full max-w-3xl p-4 sm:p-6 lg:py-8">
+          <div class={"#{@class} w-full p-4 sm:p-6 lg:py-8"}>
             <.focus_wrap
               id={"#{@id}-container"}
               phx-mounted={@show && show_modal(@id)}
               phx-window-keydown={hide_modal(@on_cancel, @id)}
               phx-key="escape"
               phx-click-away={hide_modal(@on_cancel, @id)}
-              class="hidden relative rounded-2xl bg-white p-14 shadow-lg shadow-zinc-700/10 ring-1 ring-zinc-700/10 transition"
+              class="shadow-zinc-700/10 ring-zinc-700/10 relative hidden rounded-lg bg-gray-200 p-4 shadow-lg ring-1 transition"
             >
-              <div class="absolute top-6 right-5">
+              <div class="absolute top-4 right-4">
                 <button
                   phx-click={hide_modal(@on_cancel, @id)}
                   type="button"
                   class="-m-3 flex-none p-3 opacity-20 hover:opacity-40"
                   aria-label={gettext("close")}
                 >
-                  <.icon name="hero-x-mark-solid" class="w-5 h-5" />
+                  <.icon name="hero-x-mark-solid" class="h-5 w-5" />
                 </button>
               </div>
-              <div id={"#{@id}-content"}>
+              <div id={"#{@id}-content"} class="text-center">
                 <header :if={@title != []}>
                   <h1 id={"#{@id}-title"} class="text-lg font-semibold leading-8 text-zinc-800">
                     <%= render_slot(@title) %>
@@ -89,26 +90,26 @@ defmodule DigistabStoreWeb.CoreComponents do
                   <p
                     :if={@subtitle != []}
                     id={"#{@id}-description"}
-                    class="mt-2 text-sm leading-6 text-zinc-600"
+                    class="text-sm leading-6 text-zinc-600"
                   >
                     <%= render_slot(@subtitle) %>
                   </p>
                 </header>
                 <%= render_slot(@inner_block) %>
-                <div :if={@confirm != [] or @cancel != []} class="ml-6 mb-4 flex items-center gap-5">
+                <div :if={@confirm != [] or @cancel != []} class="mb-4 ml-6 flex items-center gap-5">
                   <.button
                     :for={confirm <- @confirm}
                     id={"#{@id}-confirm"}
                     phx-click={@on_confirm}
                     phx-disable-with
-                    class="py-2 px-3"
+                    class="bg-green-400 px-3 py-2"
                   >
                     <%= render_slot(confirm) %>
                   </.button>
                   <.link
                     :for={cancel <- @cancel}
                     phx-click={hide_modal(@on_cancel, @id)}
-                    class="text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
+                    class="bg-gray-400 text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
                   >
                     <%= render_slot(cancel) %>
                   </.link>
@@ -155,19 +156,19 @@ defmodule DigistabStoreWeb.CoreComponents do
       ]}
       {@rest}
     >
-      <p :if={@title} class="flex items-center gap-1.5 text-[0.8125rem] font-semibold leading-6">
-        <.icon :if={@kind == :info} name="hero-information-circle-mini" class="w-4 h-4" />
-        <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" class="w-4 h-4" />
+      <p :if={@title} class="text-[0.8125rem] flex items-center gap-1.5 font-semibold leading-6">
+        <.icon :if={@kind == :info} name="hero-information-circle-mini" class="h-4 w-4" />
+        <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" class="h-4 w-4" />
         <%= @title %>
       </p>
-      <p class="mt-2 text-[0.8125rem] leading-5"><%= msg %></p>
+      <p class="text-[0.8125rem] leading-5"><%= msg %></p>
       <button
         :if={@close}
         type="button"
         class="group absolute top-2 right-1 p-2"
         aria-label={gettext("close")}
       >
-        <.icon name="hero-x-mark-solid" class="w-5 h-5 opacity-40 group-hover:opacity-70" />
+        <.icon name="hero-x-mark-solid" class="h-5 w-5 opacity-40 group-hover:opacity-70" />
       </button>
     </div>
     """
@@ -195,7 +196,7 @@ defmodule DigistabStoreWeb.CoreComponents do
       phx-disconnected={show("#disconnected")}
       phx-connected={hide("#disconnected")}
     >
-      Attempting to reconnect <.icon name="hero-arrow-path" class="ml-1 w-3 h-3 animate-spin" />
+      Attempting to reconnect <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
     </.flash>
     """
   end
@@ -226,9 +227,9 @@ defmodule DigistabStoreWeb.CoreComponents do
   def simple_form(assigns) do
     ~H"""
     <.form :let={f} for={@for} as={@as} {@rest}>
-      <div class="space-y-8 bg-white mt-10">
+      <div class="mt-10 space-y-8">
         <%= render_slot(@inner_block, f) %>
-        <div :for={action <- @actions} class="mt-2 flex items-center justify-between gap-6">
+        <div :for={action <- @actions} class="flex items-center justify-center gap-6 space-x-2">
           <%= render_slot(action, f) %>
         </div>
       </div>
@@ -282,11 +283,16 @@ defmodule DigistabStoreWeb.CoreComponents do
   attr :name, :any
   attr :label, :string, default: nil
   attr :value, :any
+  attr :description, :string, default: nil
+  attr :currency, :string, default: "BRL"
+  attr :item, :any
+  attr :collection, :any
 
   attr :type, :string,
     default: "text",
-    values: ~w(checkbox color date datetime-local email file hidden month number password
-               range radio search select tel text textarea time url week)
+    values:
+      ~w(checkbox color date datetime-local email file hidden month number password
+               range radio search select tel text textarea time url week wysiwyg select_with_description price custom_counter)
 
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
@@ -323,7 +329,7 @@ defmodule DigistabStoreWeb.CoreComponents do
           name={@name}
           value="true"
           checked={@checked}
-          class="rounded border-zinc-300 text-zinc-900 focus:ring-zinc-900"
+          class="rounded border-purple-300 text-zinc-900 focus:ring-zinc-900"
           {@rest}
         />
         <%= @label %>
@@ -336,11 +342,11 @@ defmodule DigistabStoreWeb.CoreComponents do
   def input(%{type: "select"} = assigns) do
     ~H"""
     <div phx-feedback-for={@name}>
-      <.label for={@id}><%= @label %></.label>
+      <.label for={@id} weight="font-medium"><%= @label %></.label>
       <select
         id={@id}
         name={@name}
-        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-zinc-500 focus:border-zinc-500 sm:text-sm"
+        class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-zinc-500 sm:text-sm"
         multiple={@multiple}
         {@rest}
       >
@@ -352,18 +358,40 @@ defmodule DigistabStoreWeb.CoreComponents do
     """
   end
 
+  def input(%{type: "select_with_description"} = assigns) do
+    assigns = assign(assigns, :value, (if is_nil(assigns.value), do: assigns.item, else: assigns.value))
+    ~H"""
+    <div phx-feedback-for={@name}>
+      <.label for={@id} weight="font-medium"><%= @label %></.label>
+      <select
+        id={@id}
+        name={@name}
+        class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-zinc-500 sm:text-sm"
+        multiple={@multiple}
+        {@rest}
+      >
+        <option :if={@prompt} value=""><%= @prompt %></option>
+        <%= Phoenix.HTML.Form.options_for_select(@options, @value) %>
+      </select>
+      <.error :for={msg <- @errors}><%= msg %></.error>
+      <div class="my-2 text-sm"><%= Enum.find(@collection, fn item -> item.name == @value end) |> then(& &1.description) %></div>
+
+    </div>
+    """
+  end
+
   def input(%{type: "textarea"} = assigns) do
     ~H"""
     <div phx-feedback-for={@name}>
-      <.label for={@id}><%= @label %></.label>
+      <.label for={@id} weight="font-medium"><%= @label %></.label>
       <textarea
         id={@id || @name}
         name={@name}
         class={[
-          "mt-2 block min-h-[6rem] w-full rounded-lg border-zinc-300 py-[7px] px-[11px]",
-          "text-zinc-900 focus:border-zinc-400 focus:outline-none focus:ring-4 focus:ring-zinc-800/5 sm:text-sm sm:leading-6",
-          "phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400 phx-no-feedback:focus:ring-zinc-800/5",
-          "border-zinc-300 focus:border-zinc-400 focus:ring-zinc-800/5",
+          "block min-h-[6rem] w-full rounded-lg  border-purple-300 py-[7px] px-[11px]",
+          "text-zinc-900 focus:border-purple-400 focus:outline-none focus:ring-4 focus:ring-zinc-800/5 sm:text-sm sm:leading-6",
+          "phx-no-feedback:border-purple-300 phx-no-feedback:focus:border-purple-400 phx-no-feedback:focus:ring-zinc-800/5",
+          " border-purple-300 focus:border-purple-400 focus:ring-zinc-800/5",
           @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-400/10"
         ]}
         {@rest}
@@ -373,20 +401,83 @@ defmodule DigistabStoreWeb.CoreComponents do
     """
   end
 
-  def input(assigns) do
+  def input(%{type: "wysiwyg"} = assigns) do
     ~H"""
-    <div phx-feedback-for={@name}>
-      <.label for={@id}><%= @label %></.label>
+    <div phx-feedback-for={@name} class="">
+      <.label for={@id} weight="font-medium"><%= @label %></.label>
+      <textarea id={@id || @name} name={@name} hidden={true} phx-hook="TrixEditor">
+        <%= Phoenix.HTML.Form.normalize_value("textarea", @value) %>
+      </textarea>
+      <div id="richtext"
+      phx-update="ignore"
+      class={[
+        "block w-full rounded-lg  border-purple-300 py-[7px] px-[11px]",
+        "text-zinc-900 focus-within:outline-none focus-within:ring-4 sm:text-sm sm:leading-6 text-right",
+        "phx-no-feedback:border-purple-300 phx-no-feedback:focus-within:border-purple-400 phx-no-feedback:focus-within:ring-zinc-800/5",
+        "border border-purple-300 focus-within:border-purple-400 focus-within:ring-zinc-800/5",
+        @errors != [] && "border-rose-400 focus-within:border-rose-400 focus-within:ring-rose-400/10"
+      ]}
+      >
+        <trix-toolbar id="trix-toolbar">
+          <div class="trix-button-row">
+            <span
+              class="trix-button-group trix-button-group--text-tools justify-center"
+              data-trix-button-group="text-tools"
+            >
+              <button
+                type="button"
+                class="trix-button trix-button--icon trix-button--icon-bold"
+                data-trix-attribute="bold"
+                data-trix-key="b"
+                title="Bold"
+                tabindex="-1"
+              >
+                Bold
+              </button>
+              <button
+                type="button"
+                class="trix-button trix-button--icon trix-button--icon-italic"
+                data-trix-attribute="italic"
+                data-trix-key="i"
+                title="Italic"
+                tabindex="-1"
+              >
+                Italic
+              </button>
+              <button
+                type="button"
+                class="trix-button trix-button--icon trix-button--icon-strike"
+                data-trix-attribute="strike"
+                title="Strikethrough"
+                tabindex="-1"
+              >
+                Strikethrough
+              </button>
+            </span>
+          </div>
+        </trix-toolbar>
+        <trix-editor input={@id} class="w-full border-none px-2 text-left" toolbar="trix-toolbar">
+        </trix-editor>
+      </div>
+      <.error :for={msg <- @errors}><%= msg %></.error>
+    </div>
+    """
+  end
+
+  def input(%{type: "number"} = assigns) do
+    ~H"""
+    <div phx-feedback-for={@name} class="content-between">
+      <.label for={@id} weight="font-medium"><%= @label %></.label>
       <input
         type={@type}
         name={@name}
         id={@id || @name}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "mt-2 block w-full rounded-lg border-zinc-300 py-[7px] px-[11px]",
-          "text-zinc-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
-          "phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400 phx-no-feedback:focus:ring-zinc-800/5",
-          "border-zinc-300 focus:border-zinc-400 focus:ring-zinc-800/5",
+          "block w-full rounded-lg  border-purple-300 py-[7px] px-[11px]",
+          "text-zinc-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6 text-right",
+          "phx-no-feedback:border-purple-300 phx-no-feedback:focus:border-purple-400 phx-no-feedback:focus:ring-zinc-800/5",
+          " border-purple-300 focus:border-purple-400 focus:ring-zinc-800/5",
           @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-400/10"
         ]}
         {@rest}
@@ -396,15 +487,181 @@ defmodule DigistabStoreWeb.CoreComponents do
     """
   end
 
+  def input(%{type: "price"} = assigns) do
+    ~H"""
+    <div phx-feedback-for={@name} class="content-between">
+      <.label for={@id} weight="font-medium"><%= @label %></.label>
+      <input
+        type={@type}
+        name={@name}
+        id={@id || @name}
+        value={Phoenix.HTML.Form.normalize_value("number", @value) |> set_initial_value(@currency)}
+        class={[
+          "block w-full rounded-lg  border-purple-300 py-[7px] px-[11px]",
+          "text-zinc-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6 text-right",
+          "phx-no-feedback:border-purple-300 phx-no-feedback:focus:border-purple-400 phx-no-feedback:focus:ring-zinc-800/5",
+          "border border-purple-300 focus:border-purple-400 focus:ring-zinc-800/5",
+          @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-400/10"
+        ]}
+        currency={@currency}
+        autocomplete="off"
+        phx-hook="IntegerPriceInput"
+        phx-update="ignore"
+        {@rest}
+      />
+      <.error :for={msg <- @errors}><%= msg %></.error>
+    </div>
+    """
+  end
+
+  def input(%{type: "custom_counter"} = assigns) do
+    ~H"""
+    <div phx-feedback-for={@name} class="content-between">
+          <.label for={@id} weight="font-medium"><%= @label %></.label>
+          <div class="relative bottom-0 flex w-full flex-row rounded-lg bg-transparent space-x-1">
+          <button type="button" data-action="decrement" disabled={assigns.value == 0} class="bg-purple-100 rounded-md px-2 hover:bg-purple-800 hover:text-white disabled:bg-white disabled:text-gray-400 active:bg-purple-500">
+              <.icon name="hero-minus-circle-mini" class="w-4 h-4" />
+          </button>
+            <input
+            type="number"
+            phx-hook="CustomCounterInput"
+            class={[
+              "block w-full rounded-lg  border-purple-300 py-[7px] px-[11px]",
+              "text-zinc-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6 text-right",
+              "phx-no-feedback:border-purple-300 phx-no-feedback:focus:border-purple-400 phx-no-feedback:focus:ring-zinc-800/5",
+              "border border-purple-300 focus:border-purple-400 focus:ring-zinc-800/5",
+              @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-400/10"
+            ]}
+            id={@id || @name}
+            name={@name}
+            phx-update="ignore"
+            value={Phoenix.HTML.Form.normalize_value("number", @value)}
+            {@rest}
+            />
+          <button type="button" data-action="increment" class="bg-purple-100 rounded-md px-2 hover:bg-purple-800 hover:text-white active:bg-purple-500">
+              <.icon name="hero-plus-circle-mini" class="w-4 h-4" />
+          </button>
+          <style>
+              input[type=number]::-webkit-inner-spin-button,
+              input[type=number]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+              }
+
+              .{@name} input:focus {
+                outline: none !important;
+              }
+
+              .custom-number-input button:focus {
+                outline: none !important;
+              }
+          </style>
+        </div>
+      <.error :for={msg <- @errors}><%= msg %></.error>
+    </div>
+    """
+  end
+
+  def input(assigns) do
+    ~H"""
+    <div phx-feedback-for={@name}>
+      <.label for={@id} weight="font-medium"><%= @label %></.label>
+      <input
+        type={@type}
+        name={@name}
+        id={@id || @name}
+        value={Phoenix.HTML.Form.normalize_value(@type, @value)}
+        class={[
+          "block w-full rounded-lg  border-purple-300 py-[7px] px-[11px]",
+          "text-zinc-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
+          "phx-no-feedback:border-purple-300 phx-no-feedback:focus:border-purple-400 phx-no-feedback:focus:ring-zinc-800/5",
+          " border-purple-300 focus:border-purple-400 focus:ring-zinc-800/5",
+          @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-400/10"
+        ]}
+        {@rest}
+      />
+      <.error :for={msg <- @errors}><%= msg %></.error>
+    </div>
+    """
+  end
+
+
+  @spec live_upload(any) :: Phoenix.LiveView.Rendered.t()
+  def live_upload(assigns) do
+    ~H"""
+      <div class="p-4 h-fit border-2 border-dashed border-gray-300 rounded-md cursor-pointer text-center">
+        <.icon name="hero-arrow-up-tray" class="w-12 h-12 text-gray-700" />
+        <div class="text-black font-medium md:hidden">
+          <p><a class="text-purple-600">browse the files</a>&nbsp;from device</p>
+        </div>
+        <div class="text-black font-medium hidden md:block">
+          <p>Drag & drop the product photos here<br/>or&nbsp;<a class="text-purple-600">browse the files</a>&nbsp;from device</p>
+        </div>
+      </div>
+    """
+  end
+
+
+  defp set_initial_value(value, symbol) do
+    if symbol == "$", do: set_dot_separator(value), else: set_comma_separator(value)
+  end
+
+  defp set_dot_separator(value) do
+    if value == 0 do
+      "0.00"
+    else
+      {first, second} =
+        value
+        |> Integer.to_string()
+        |> String.split_at(-2)
+      []
+      "#{format_first_part(first)}.#{format_second_part(second)}"
+    end
+  end
+
+  defp set_comma_separator(value) do
+    if value == 0 do
+      "0,00"
+    else
+      {first, second} =
+        value
+        |> Integer.to_string()
+        |> String.split_at(-2)
+      []
+      "#{format_first_part(first)},#{format_second_part(second)}"
+    end
+  end
+
+  defp format_first_part(str) do
+    if str == "" do
+      "0"
+    else
+      str
+    end
+  end
+
+  defp format_second_part(str) do
+    if str == "" do
+      "00"
+    else
+      if String.length(str) == 1 do
+        "0#{str}"
+      else
+        str
+      end
+    end
+  end
+
   @doc """
   Renders a label.
   """
   attr :for, :string, default: nil
+  attr :weight, :string, default: "font-regular"
   slot :inner_block, required: true
 
   def label(assigns) do
     ~H"""
-    <label for={@for} class="block text-sm font-semibold leading-6 text-zinc-800">
+    <label for={@for} class={"#{@weight} block text-sm leading-6 text-zinc-800"}>
       <%= render_slot(@inner_block) %>
     </label>
     """
@@ -417,8 +674,8 @@ defmodule DigistabStoreWeb.CoreComponents do
 
   def error(assigns) do
     ~H"""
-    <p class="phx-no-feedback:hidden mt-3 flex gap-3 text-sm leading-6 text-rose-600">
-      <.icon name="hero-exclamation-circle-mini" class="mt-0.5 w-5 h-5 flex-none" />
+    <p class="mt-3 flex gap-3 text-sm leading-6 text-rose-600 phx-no-feedback:hidden">
+      <.icon name="hero-exclamation-circle-mini" class="mt-0.5 h-5 w-5 flex-none" />
       <%= render_slot(@inner_block) %>
     </p>
     """
@@ -440,7 +697,7 @@ defmodule DigistabStoreWeb.CoreComponents do
         <h1 class="text-lg font-semibold leading-8 text-zinc-800">
           <%= render_slot(@inner_block) %>
         </h1>
-        <p :if={@subtitle != []} class="mt-2 text-sm leading-6 text-zinc-600">
+        <p :if={@subtitle != []} class="text-sm leading-6 text-zinc-600">
           <%= render_slot(@subtitle) %>
         </p>
       </div>
@@ -482,17 +739,17 @@ defmodule DigistabStoreWeb.CoreComponents do
 
     ~H"""
     <div class="overflow-y-auto px-4 sm:overflow-visible sm:px-0">
-      <table class="mt-11 w-[40rem] sm:w-full">
-        <thead class="text-left text-[0.8125rem] leading-6 text-zinc-500">
+      <table class="w-[40rem] mt-11 sm:w-full">
+        <thead class="text-[0.8125rem] text-left leading-6 text-zinc-500">
           <tr>
-            <th :for={col <- @col} class="p-0 pb-4 pr-6 font-normal"><%= col[:label] %></th>
+            <th :for={col <- @col} class="p-0 pr-6 pb-4 font-normal"><%= col[:label] %></th>
             <th class="relative p-0 pb-4"><span class="sr-only"><%= gettext("Actions") %></span></th>
           </tr>
         </thead>
         <tbody
           id={@id}
           phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
-          class="relative divide-y divide-zinc-100 border-t border-zinc-200 text-sm leading-6 text-zinc-700"
+          class="relative divide-y divide-zinc-100 border-t border-purple-200 text-sm leading-6 text-zinc-700"
         >
           <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="group hover:bg-zinc-50">
             <td
@@ -507,7 +764,7 @@ defmodule DigistabStoreWeb.CoreComponents do
                 </span>
               </div>
             </td>
-            <td :if={@action != []} class="relative p-0 w-14">
+            <td :if={@action != []} class="relative w-14 p-0">
               <div class="relative whitespace-nowrap py-4 text-right text-sm font-medium">
                 <span class="absolute -inset-y-px -right-4 left-0 group-hover:bg-zinc-50 sm:rounded-r-xl" />
                 <span
@@ -544,7 +801,7 @@ defmodule DigistabStoreWeb.CoreComponents do
     <div class="mt-14">
       <dl class="-my-4 divide-y divide-zinc-100">
         <div :for={item <- @item} class="flex gap-4 py-4 sm:gap-8">
-          <dt class="w-1/4 flex-none text-[0.8125rem] leading-6 text-zinc-500"><%= item.title %></dt>
+          <dt class="text-[0.8125rem] w-1/4 flex-none leading-6 text-zinc-500"><%= item.title %></dt>
           <dd class="text-sm leading-6 text-zinc-700"><%= render_slot(item) %></dd>
         </div>
       </dl>
@@ -569,7 +826,7 @@ defmodule DigistabStoreWeb.CoreComponents do
         navigate={@navigate}
         class="text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
       >
-        <.icon name="hero-arrow-left-solid" class="w-3 h-3" />
+        <.icon name="hero-arrow-left-solid" class="h-3 w-3" />
         <%= render_slot(@inner_block) %>
       </.link>
     </div>
