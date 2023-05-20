@@ -2,7 +2,7 @@
   Listing Products
   <:actions>
     <.link patch={~p"/products/new"}>
-      <.button>New Product</.button>
+      <.button class="bg-zinc-900 hover:bg-zinc-700">New Product</.button>
     </.link>
   </:actions>
 </.header>
@@ -47,5 +47,6 @@
     action={@live_action}
     product={@product}
     patch={~p"/products"}
+    on_cancel={JS.navigate(~p"/products")}
   />
 </.modal>

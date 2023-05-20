@@ -12,6 +12,7 @@ defmodule DigistabStoreWeb.CoreComponents do
 
   alias Phoenix.LiveView.JS
   import DigistabStoreWeb.Gettext
+  import DigistabStoreWeb.ErrorHelpers
 
   @doc """
   Renders a modal.
@@ -255,10 +256,9 @@ defmodule DigistabStoreWeb.CoreComponents do
     ~H"""
     <button
       type={@type}
-      class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3",
-        "text-sm font-semibold leading-6 text-white active:text-white/80",
-        @class
+      class={[@class,
+        "phx-submit-loading:opacity-75 rounded-lg py-2 px-3",
+        "text-sm font-semibold leading-6 text-white active:text-white/80"
       ]}
       {@rest}
     >
@@ -359,7 +359,9 @@ defmodule DigistabStoreWeb.CoreComponents do
   end
 
   def input(%{type: "select_with_description"} = assigns) do
-    assigns = assign(assigns, :value, (if is_nil(assigns.value), do: assigns.item, else: assigns.value))
+    assigns =
+      assign(assigns, :value, if(is_nil(assigns.value), do: assigns.item, else: assigns.value))
+
     ~H"""
     <div phx-feedback-for={@name}>
       <.label for={@id} weight="font-medium"><%= @label %></.label>
@@ -518,9 +520,9 @@ defmodule DigistabStoreWeb.CoreComponents do
     ~H"""
     <div phx-feedback-for={@name} class="content-between">
           <.label for={@id} weight="font-medium"><%= @label %></.label>
-          <div class="relative bottom-0 flex w-full flex-row rounded-lg bg-transparent space-x-1">
-          <button type="button" data-action="decrement" disabled={assigns.value == 0} class="bg-purple-100 rounded-md px-2 hover:bg-purple-800 hover:text-white disabled:bg-white disabled:text-gray-400 active:bg-purple-500">
-              <.icon name="hero-minus-circle-mini" class="w-4 h-4" />
+          <div class="relative bottom-0 flex w-full flex-row space-x-1 rounded-lg bg-transparent">
+          <button type="button" data-action="decrement" disabled={assigns.value == 0} class="rounded-md bg-purple-100 px-2 hover:bg-purple-800 hover:text-white active:bg-purple-500 disabled:bg-white disabled:text-gray-400">
+              <.icon name="hero-minus-circle-mini" class="h-4 w-4" />
           </button>
             <input
             type="number"
@@ -538,8 +540,8 @@ defmodule DigistabStoreWeb.CoreComponents do
             value={Phoenix.HTML.Form.normalize_value("number", @value)}
             {@rest}
             />
-          <button type="button" data-action="increment" class="bg-purple-100 rounded-md px-2 hover:bg-purple-800 hover:text-white active:bg-purple-500">
-              <.icon name="hero-plus-circle-mini" class="w-4 h-4" />
+          <button type="button" data-action="increment" class="rounded-md bg-purple-100 px-2 hover:bg-purple-800 hover:text-white active:bg-purple-500">
+              <.icon name="hero-plus-circle-mini" class="h-4 w-4" />
           </button>
           <style>
               input[type=number]::-webkit-inner-spin-button,
@@ -585,23 +587,6 @@ defmodule DigistabStoreWeb.CoreComponents do
     """
   end
 
-
-  @spec live_upload(any) :: Phoenix.LiveView.Rendered.t()
-  def live_upload(assigns) do
-    ~H"""
-      <div class="p-4 h-fit border-2 border-dashed border-gray-300 rounded-md cursor-pointer text-center">
-        <.icon name="hero-arrow-up-tray" class="w-12 h-12 text-gray-700" />
-        <div class="text-black font-medium md:hidden">
-          <p><a class="text-purple-600">browse the files</a>&nbsp;from device</p>
-        </div>
-        <div class="text-black font-medium hidden md:block">
-          <p>Drag & drop the product photos here<br/>or&nbsp;<a class="text-purple-600">browse the files</a>&nbsp;from device</p>
-        </div>
-      </div>
-    """
-  end
-
-
   defp set_initial_value(value, symbol) do
     if symbol == "$", do: set_dot_separator(value), else: set_comma_separator(value)
   end
@@ -614,6 +599,7 @@ defmodule DigistabStoreWeb.CoreComponents do
         value
         |> Integer.to_string()
         |> String.split_at(-2)
+
       []
       "#{format_first_part(first)}.#{format_second_part(second)}"
     end
@@ -627,6 +613,7 @@ defmodule DigistabStoreWeb.CoreComponents do
         value
         |> Integer.to_string()
         |> String.split_at(-2)
+
       []
       "#{format_first_part(first)},#{format_second_part(second)}"
     end
@@ -909,38 +896,4 @@ defmodule DigistabStoreWeb.CoreComponents do
     |> JS.pop_focus()
   end
 
-  @doc """
-  Translates an error message using gettext.
-  """
-  def translate_error({msg, opts}) do
-    # When using gettext, we typically pass the strings we want
-    # to translate as a static argument:
-    #
-    #     # Translate "is invalid" in the "errors" domain
-    #     dgettext("errors", "is invalid")
-    #
-    #     # Translate the number of files with plural rules
-    #     dngettext("errors", "1 file", "%{count} files", count)
-    #
-    # Because the error messages we show in our forms and APIs
-    # are defined inside Ecto, we need to translate them dynamically.
-    # This requires us to call the Gettext module passing our gettext
-    # backend as first argument.
-    #
-    # Note we use the "errors" domain, which means translations
-    # should be written to the errors.po file. The :count option is
-    # set by Ecto and indicates we should also apply plural rules.
-    if count = opts[:count] do
-      Gettext.dngettext(DigistabStoreWeb.Gettext, "errors", msg, msg, count, opts)
-    else
-      Gettext.dgettext(DigistabStoreWeb.Gettext, "errors", msg, opts)
-    end
-  end
-
-  @doc """
-  Translates the errors for a field from a keyword list of errors.
-  """
-  def translate_errors(errors, field) when is_list(errors) do
-    for {^field, {msg, opts}} <- errors, do: translate_error({msg, opts})
-  end
 end
