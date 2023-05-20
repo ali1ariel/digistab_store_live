@@ -11,6 +11,9 @@ defmodule DigistabStore.Store.Category do
 
     has_many :products, Product
 
+    belongs_to :category, __MODULE__
+    has_many :sub_categories, __MODULE__
+
     timestamps()
   end
 

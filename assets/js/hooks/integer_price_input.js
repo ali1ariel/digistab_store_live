@@ -1,5 +1,17 @@
 export const IntegerPriceInput = {
   mounted() {
+    this.el.addEventListener("focus", e => {
+      var val = this.el.value;
+      if(val == "0,00") {
+        this.el.value = '';
+      }
+    });
+    this.el.addEventListener("focusout", e => {
+      var val = this.el.value;
+      if(val == "") {
+        this.el.value = '0,00'; 
+      }
+    });
     this.el.addEventListener("input", e => {
       let str = this.el.value;
       str = str.replaceAll(/[^0-9]/g, "");
