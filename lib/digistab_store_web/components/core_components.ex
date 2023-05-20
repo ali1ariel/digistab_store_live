@@ -895,5 +895,4 @@ defmodule DigistabStoreWeb.CoreComponents do
     |> JS.remove_class("overflow-hidden", to: "body")
     |> JS.pop_focus()
   end
-
 end

@@ -55,8 +55,16 @@ defmodule DigistabStoreWeb.ErrorHelpers do
 
   def error_to_string(:too_large), do: dgettext("errors", "File too large")
   def error_to_string(:not_accepted), do: dgettext("errors", "Format not accepted")
-  def error_to_string(:too_many_files), do: dgettext("errors", "You have selected too many files, please, cancel the excedent to continue.")
+
+  def error_to_string(:too_many_files),
+    do:
+      dgettext(
+        "errors",
+        "You have selected too many files, please, cancel the excedent to continue."
+      )
+
   def error_to_string(:external_client_failure), do: dgettext("errors", "Failed to upload")
+
   def error_to_string(something) do
     IO.inspect(something, label: "label")
     dgettext("errors", "Failed to upload")

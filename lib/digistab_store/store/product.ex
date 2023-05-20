@@ -25,9 +25,19 @@ defmodule DigistabStore.Store.Product do
   @doc false
   def changeset(product, attrs) do
     product
-    |> cast(attrs, [:name, :price, :promotional_price, :description, :stock, :status_name, :category_name, :status_id, :category_id])
+    |> cast(attrs, [
+      :name,
+      :price,
+      :promotional_price,
+      :description,
+      :stock,
+      :status_name,
+      :category_name,
+      :status_id,
+      :category_id
+    ])
     |> validate_required([:name, :price, :promotional_price, :description])
-    |> validate_number(:stock, [greater_than_or_equal_to: 0])
+    |> validate_number(:stock, greater_than_or_equal_to: 0)
     |> cast_assoc(:status)
     |> cast_assoc(:category)
   end

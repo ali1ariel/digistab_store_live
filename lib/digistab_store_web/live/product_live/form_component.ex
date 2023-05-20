@@ -81,7 +81,7 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
 
   def live_upload1(assigns) do
     ~H"""
-      <div class="flex flex-col md:flex-row justify-around">
+      <div class="flex flex-col justify-around md:flex-row">
         <.live_file_input upload={@uploads.photos} />
         <.live_img_preview entry={entry} width={100} :for={entry <- @uploads.photos.entries}/>
       </div>
@@ -91,9 +91,9 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
   def live_upload(assigns) do
     ~H"""
       <div class="flex flex-col">
-      <div class="flex flex-col md:flex-row justify-around">
-        <div class={"flex h-fit flex-col rounded-md bg-gray-100 shadow-inner" <> if (length(@uploads.photos.entries) < 5), do: " w-full md:w-2/3", else: " w-full"} :if={has_uploads?(@uploads.photos.entries)}>
-          <div class={"flex h-fit flex-row" <> if (has_uploads?(@uploads.photos.entries)), do: " overflow-auto", else: ""}>
+      <div class="flex flex-col justify-around md:flex-row">
+        <div class={"flex h-fit flex-col rounded-md bg-gray-100 shadow-inner " <> if (length(@uploads.photos.entries) < 5), do: " w-full md:w-2/3", else: " w-full"} :if={has_uploads?(@uploads.photos.entries)}>
+          <div class={"flex h-fit flex-row " <> if (has_uploads?(@uploads.photos.entries)), do: " overflow-auto", else:"}>
             <.image_live_preview uploads={@uploads} myself={@myself}/>
           </div>
         </div>
@@ -101,7 +101,7 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
         <div class={upload_field(has_uploads?(@uploads.photos.entries))} phx-drop-target={@uploads.photos.ref}
         onClick={"document.getElementById('#{@uploads.photos.ref}').click();"} :if={length(@uploads.photos.entries) < 5}>
           <div class="m-auto">
-            <.icon name="hero-arrow-up-tray" class={"h-12 w-12 mx-auto text-gray-700 " <> if (!has_uploads?(@uploads.photos.entries)), do: "block", else: "hidden md:block"} />
+            <.icon name="hero-arrow-up-tray" class={"mx-auto h-12 w-12 text-gray-700 " <> if (!has_uploads?(@uploads.photos.entries)), do: "block", else: "hidden md:block"} />
             <div class="font-medium text-black md:hidden" :if={!has_uploads?(@uploads.photos.entries)}>
               <p><label class="text-purple-600" for="photos">browse the files</label>&nbsp;from device</p>
             </div>
@@ -116,7 +116,7 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
         <.live_file_input upload={@uploads.photos} class="hidden"/>
 
         </div>
-        <div class="bg-red-200 rounded-lg">
+        <div class="rounded-lg bg-red-200">
           <div :for={entry <- @uploads.photos.entries}>
             <div class="mt-1 p-1" role="alert" :for={err <- upload_errors(@uploads.photos, entry)}>
               <p><%= entry.client_name %> - <%= error_to_string err %></p>
@@ -133,9 +133,9 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
   def image_live_preview(assigns) do
     ~H"""
       <div :for={entry <- @uploads.photos.entries}>
-        <div class="relative h-fit mx-0-5">
+        <div class="mx-0-5 relative h-fit">
           <div class="w-36" title={entry.client_name} >
-            <div class="absolute cursor-pointer top-0 right-0 flex h-8 w-8 rounded-full border bg-red-400" phx-click="cancel-upload" phx-value-ref={entry.ref} phx-target={@myself}>
+            <div class="absolute top-0 right-0 flex h-8 w-8 cursor-pointer rounded-full border bg-red-400" phx-click="cancel-upload" phx-value-ref={entry.ref} phx-target={@myself}>
               <.icon name="hero-x-circle" class="m-auto h-6 w-6 text-white" />
             </div>
             <div class="z-0 m-2 h-36 w-32 rounded-md border-2 border-dashed border-gray-300 bg-white p-4 text-center">
@@ -146,7 +146,7 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
             </div>
           </div>
           <label class="mt-auto" title={entry.client_name} ><%= format_filename(entry.client_name) %></label>
-          <div class="bg-white progress w-32 m-2 h-2 rounded-lg border shadow-lg">
+          <div class="progress m-2 h-2 w-32 rounded-lg border bg-white shadow-lg">
             <div class="progress-bar bg-by-theme-four bg-purple-600" role="progressbar" style={"width: #{entry.progress}%"} aria-valuenow={entry.progress} aria-valuemin="0" aria-valuemax="100">
             </div>
           </div>
@@ -358,7 +358,7 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
       "flex h-36 w-full cursor-pointer rounded-md border-2 border-dashed border-gray-300 p-4 text-center"
 
   defp format_filename(filename) do
-    if (String.length(filename) < 19) do
+    if String.length(filename) < 19 do
       filename
     else
       filename
