@@ -93,7 +93,7 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
       <div class="flex flex-col">
       <div class="flex flex-col justify-around md:flex-row">
         <div class={"flex h-fit flex-col rounded-md bg-gray-100 shadow-inner " <> if (length(@uploads.photos.entries) < 5), do: " w-full md:w-2/3", else: " w-full"} :if={has_uploads?(@uploads.photos.entries)}>
-          <div class={"flex h-fit flex-row " <> if (has_uploads?(@uploads.photos.entries)), do: " overflow-auto", else:"}>
+          <div class={"flex h-fit flex-row " <> if (has_uploads?(@uploads.photos.entries)), do: " overflow-auto", else: ""}>
             <.image_live_preview uploads={@uploads} myself={@myself}/>
           </div>
         </div>
