@@ -79,15 +79,6 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
     """
   end
 
-  def live_upload1(assigns) do
-    ~H"""
-      <div class="flex flex-col justify-around md:flex-row">
-        <.live_file_input upload={@uploads.photos} />
-        <.live_img_preview entry={entry} width={100} :for={entry <- @uploads.photos.entries}/>
-      </div>
-    """
-  end
-
   def live_upload(assigns) do
     ~H"""
       <div class="flex flex-col">
@@ -169,34 +160,35 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
 
   @impl true
 
-  def handle_event("validate", %{"search_tag" => ""}, socket) do
-    {:noreply, assign(socket, fetched_tags: [], tag_name: "")}
-  end
-
-  def handle_event("validate", %{"search_tag" => tag_name}, socket) do
-    selected_tags = socket.assigns.selected_tags
-    tags = socket.assigns.tags
-
-    assigns = search_tags(tags, selected_tags, tag_name)
-
-    {:noreply, assign(socket, assigns)}
-  end
-
-  def handle_event("validate", %{"product" => product_params}, socket) do
+  def handle_event("validate", %{"product" => product_params, "search_tag" => tag_name}, socket) do
+    IO.inspect(product_params)
     params =
       product_params
       |> validate_price("price")
       |> validate_price("promotional_price")
       |> validate_custom_select("status", socket.assigns.status_collection)
       |> validate_custom_select("category", socket.assigns.categories_collection)
-      |> validate_stock()
 
     changeset =
       socket.assigns.product
       |> Store.change_product(params)
       |> Map.put(:action, :validate)
 
-    {:noreply, assign_form(socket, changeset)}
+    assigns =
+    if tag_name == "" do
+      [fetched_tags: [], tag_name: ""]
+    else
+      selected_tags = socket.assigns.selected_tags
+      tags = socket.assigns.tags
+
+      search_tags(tags, selected_tags, tag_name)
+    end
+
+    {:noreply,
+    socket
+    |>assign_form(changeset)
+    |> assign(assigns)
+  }
   end
 
   def handle_event("save", %{"product" => product_params}, socket) do
@@ -206,7 +198,6 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
       |> validate_price("promotional_price")
       |> save_custom_select("status", socket.assigns.status_collection)
       |> save_custom_select("category", socket.assigns.categories_collection)
-      |> validate_stock()
 
     save_product(socket, socket.assigns.action, product_params)
   end

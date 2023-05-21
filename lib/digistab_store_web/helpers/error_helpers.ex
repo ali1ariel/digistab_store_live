@@ -40,9 +40,9 @@ defmodule DigistabStoreWeb.ErrorHelpers do
     # should be written to the errors.po file. The :count option is
     # set by Ecto and indicates we should also apply plural rules.
     if count = opts[:count] do
-      Gettext.dngettext(MyAppWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(DigistabStoreWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(MyAppWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(DigistabStoreWeb.Gettext, "errors", msg, opts)
     end
   end
 
@@ -65,8 +65,7 @@ defmodule DigistabStoreWeb.ErrorHelpers do
 
   def error_to_string(:external_client_failure), do: dgettext("errors", "Failed to upload")
 
-  def error_to_string(something) do
-    IO.inspect(something, label: "label")
+  def error_to_string(_) do
     dgettext("errors", "Failed to upload")
   end
 end
