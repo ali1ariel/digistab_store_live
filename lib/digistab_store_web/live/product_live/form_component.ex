@@ -67,13 +67,13 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
     <div class="flex flex-col border-t border-b py-2 text-left" :if={@fetched_tags != []}>
       <p>Fetched tags</p>
       <div class="flex w-full flex-row flex-wrap justify-between">
-        <div title={"Type: #{tag.tag_type.name}"} class="mx-1 my-1 w-fit cursor-pointer rounded-md border bg-purple-500 px-2 py-1 text-sm text-white" :for={tag <- @fetched_tags} phx-click="select-tag" phx-value-id={tag.id} phx-target={@myself}> <%= tag.name %> </div>
+        <div title={"Type: #{tag.tag_type.name}"} class="mx-1 my-1 w-fit cursor-pointer rounded-md border bg-violet-500 px-2 py-1 text-sm text-white" :for={tag <- @fetched_tags} phx-click="select-tag" phx-value-id={tag.id} phx-target={@myself}> <%= tag.name %> </div>
       </div>
     </div>
     <div class="flex flex-col border-t border-b py-2 text-left" :if={@selected_tags != []}>
       <p>Selected tags</p>
       <div class="flex w-full flex-row flex-wrap justify-between">
-        <div class="mx-1 my-1 w-fit cursor-pointer rounded-md border bg-purple-300 px-2 py-1 text-sm" :for={tag <- @selected_tags} phx-click="remove-tag" phx-value-id={tag.id} phx-target={@myself}> <%= tag.name %> </div>
+        <div class="mx-1 my-1 w-fit cursor-pointer rounded-md border bg-violet-300 px-2 py-1 text-sm" :for={tag <- @selected_tags} phx-click="remove-tag" phx-value-id={tag.id} phx-target={@myself}> <%= tag.name %> </div>
       </div>
     </div>
     </div>
@@ -84,8 +84,8 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
     ~H"""
       <div class="flex flex-col">
       <div class="flex flex-col justify-around md:flex-row">
-        <div class={"flex h-fit flex-col rounded-md bg-gray-100 shadow-inner " <> if (length(@uploads.entries) < 5), do: " w-full md:w-2/3", else: " w-full"} :if={has_uploads?(@uploads.entries)}>
-          <div class={"flex h-fit flex-row " <> if (has_uploads?(@uploads.entries)), do: " overflow-auto", else: ""}>
+        <div class={"flex h-fit flex-col rounded-md bg-violet-200 shadow-inner " <> if (length(@uploads.entries) < 5), do: " w-full md:w-2/3", else: " w-full"} :if={has_uploads?(@uploads.entries)}>
+          <div class={"flex h-fit flex-row " <> if (has_uploads?(@uploads.entries)), do: " overflow-auto scrollbar-thin scrollbar-thumb-violet-300 scrollbar-track-violet-100 scrollbar-rounded-md", else: ""}>
             <.image_live_preview entry={entry} myself={@myself} :for={entry <- @uploads.entries}/>
           </div>
         </div>
@@ -95,13 +95,13 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
           <div class="m-auto">
             <.icon name="hero-arrow-up-tray" class={"mx-auto h-12 w-12 text-gray-700 " <> if (!has_uploads?(@uploads.entries)), do: "block", else: "hidden md:block"} />
             <div class="font-medium text-black md:hidden" :if={!has_uploads?(@uploads.entries)}>
-              <p><label class="text-purple-600" for="photos">browse the files</label>&nbsp;from device</p>
+              <p><label class="text-violet-600" for="photos">browse the files</label>&nbsp;from device</p>
             </div>
             <div class="hidden font-medium text-black md:block" :if={!has_uploads?(@uploads.entries)}>
-              <p>Drag & drop the product photos here<br/>or&nbsp;<a class="text-purple-600">browse the files</a>&nbsp;from device</p>
+              <p>Drag & drop the product photos here<br/>or&nbsp;<a class="text-violet-600">browse the files</a>&nbsp;from device</p>
             </div>
             <div class="font-medium text-black md:block" :if={has_uploads?(@uploads.entries)}>
-              <a class="text-center text-purple-600">Add more...</a>&nbsp;
+              <a class="text-center text-violet-600">Add more...</a>&nbsp;
             </div>
             <a class="text-center text-red-400 text-sm">(max files: 5)</a>&nbsp;
           </div>
@@ -139,7 +139,7 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
           </div>
           <label class="mt-auto" title={@entry.client_name} ><%= format_filename(@entry.client_name) %></label>
           <div class="progress m-2 h-2 w-32 rounded-lg border bg-white shadow-lg">
-            <div class="progress-bar bg-by-theme-four bg-purple-600" role="progressbar" style={"width: #{@entry.progress}%"} aria-valuenow={@entry.progress} aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar bg-by-theme-four bg-violet-600" role="progressbar" style={"width: #{@entry.progress}%"} aria-valuenow={@entry.progress} aria-valuemin="0" aria-valuemax="100">
             </div>
           </div>
         </div>
@@ -343,7 +343,7 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
 
   defp upload_field(true),
     do:
-      "flex h-12 md:h-36 md:w-32 m-2 cursor-pointer rounded-md border-2 border-dashed border-gray-300 p-4 text-center"
+      "flex h-fit md:h-36 md:w-32 m-2 cursor-pointer rounded-md border-2 border-dashed border-gray-300 p-4 text-center"
 
   defp upload_field(false),
     do:

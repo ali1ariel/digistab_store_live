@@ -14,7 +14,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: "#FD4F00",
+        brand: "#5D0A9D",
       }
     },
   },
@@ -62,6 +62,7 @@ module.exports = {
           }
         }
       }, {values})
-    })
+    }),
+    require('tailwind-scrollbar')({ nocompatible: true })
   ]
 }

@@ -329,7 +329,7 @@ defmodule DigistabStoreWeb.CoreComponents do
           name={@name}
           value="true"
           checked={@checked}
-          class="rounded border-purple-300 text-zinc-900 focus:ring-zinc-900"
+          class="rounded border-violet-300 text-zinc-900 focus:ring-zinc-900"
           {@rest}
         />
         <%= @label %>
@@ -346,7 +346,7 @@ defmodule DigistabStoreWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-zinc-500 sm:text-sm"
+        class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-violet-500 focus:outline-none focus:ring-zinc-500 sm:text-sm"
         multiple={@multiple}
         {@rest}
       >
@@ -368,7 +368,7 @@ defmodule DigistabStoreWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-zinc-500 sm:text-sm"
+        class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-violet-500 focus:outline-none focus:ring-zinc-500 sm:text-sm"
         multiple={@multiple}
         {@rest}
       >
@@ -390,10 +390,10 @@ defmodule DigistabStoreWeb.CoreComponents do
         id={@id || @name}
         name={@name}
         class={[
-          "block min-h-[6rem] w-full rounded-lg  border-purple-300 py-[7px] px-[11px]",
-          "text-zinc-900 focus:border-purple-400 focus:outline-none focus:ring-4 focus:ring-zinc-800/5 sm:text-sm sm:leading-6",
-          "phx-no-feedback:border-purple-300 phx-no-feedback:focus:border-purple-400 phx-no-feedback:focus:ring-zinc-800/5",
-          " border-purple-300 focus:border-purple-400 focus:ring-zinc-800/5",
+          "block min-h-[6rem] w-full rounded-lg  border-violet-300 py-[7px] px-[11px]",
+          "text-zinc-900 focus:border-violet-400 focus:outline-none focus:ring-4 focus:ring-zinc-800/5 sm:text-sm sm:leading-6",
+          "phx-no-feedback:border-violet-300 phx-no-feedback:focus:border-violet-400 phx-no-feedback:focus:ring-zinc-800/5",
+          " border-violet-300 focus:border-violet-400 focus:ring-zinc-800/5",
           @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-400/10"
         ]}
         {@rest}
@@ -413,10 +413,10 @@ defmodule DigistabStoreWeb.CoreComponents do
       <div id="richtext"
       phx-update="ignore"
       class={[
-        "block w-full rounded-lg  border-purple-300 py-[7px] px-[11px]",
+        "block w-full rounded-lg  border-violet-300 py-[7px] px-[11px]",
         "text-zinc-900 focus-within:outline-none focus-within:ring-4 sm:text-sm sm:leading-6 text-right",
-        "phx-no-feedback:border-purple-300 phx-no-feedback:focus-within:border-purple-400 phx-no-feedback:focus-within:ring-zinc-800/5",
-        "border border-purple-300 focus-within:border-purple-400 focus-within:ring-zinc-800/5",
+        "phx-no-feedback:border-violet-300 phx-no-feedback:focus-within:border-violet-400 phx-no-feedback:focus-within:ring-zinc-800/5",
+        "border border-violet-300 focus-within:border-violet-400 focus-within:ring-zinc-800/5",
         @errors != [] && "border-rose-400 focus-within:border-rose-400 focus-within:ring-rose-400/10"
       ]}
       >
@@ -476,10 +476,10 @@ defmodule DigistabStoreWeb.CoreComponents do
         id={@id || @name}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "block w-full rounded-lg  border-purple-300 py-[7px] px-[11px]",
+          "block w-full rounded-lg  border-violet-300 py-[7px] px-[11px]",
           "text-zinc-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6 text-right",
-          "phx-no-feedback:border-purple-300 phx-no-feedback:focus:border-purple-400 phx-no-feedback:focus:ring-zinc-800/5",
-          " border-purple-300 focus:border-purple-400 focus:ring-zinc-800/5",
+          "phx-no-feedback:border-violet-300 phx-no-feedback:focus:border-violet-400 phx-no-feedback:focus:ring-zinc-800/5",
+          " border-violet-300 focus:border-violet-400 focus:ring-zinc-800/5",
           @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-400/10"
         ]}
         {@rest}
@@ -499,10 +499,10 @@ defmodule DigistabStoreWeb.CoreComponents do
         id={@id || @name}
         value={Phoenix.HTML.Form.normalize_value("number", @value) |> set_initial_value(@currency)}
         class={[
-          "block w-full rounded-lg  border-purple-300 py-[7px] px-[11px]",
+          "block w-full rounded-lg  border-violet-300 py-[7px] px-[11px]",
           "text-zinc-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6 text-right",
-          "phx-no-feedback:border-purple-300 phx-no-feedback:focus:border-purple-400 phx-no-feedback:focus:ring-zinc-800/5",
-          "border border-purple-300 focus:border-purple-400 focus:ring-zinc-800/5",
+          "phx-no-feedback:border-violet-300 phx-no-feedback:focus:border-violet-400 phx-no-feedback:focus:ring-zinc-800/5",
+          "border border-violet-300 focus:border-violet-400 focus:ring-zinc-800/5",
           @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-400/10"
         ]}
         currency={@currency}
@@ -521,17 +521,17 @@ defmodule DigistabStoreWeb.CoreComponents do
     <div phx-feedback-for={@name} class="content-between">
           <.label for={@id} weight="font-medium"><%= @label %></.label>
           <div class="relative bottom-0 flex w-full flex-row space-x-1 rounded-lg bg-transparent">
-          <button type="button" data-action="decrement" disabled={assigns.value == 0} class="rounded-md bg-purple-100 px-2 hover:bg-purple-800 hover:text-white active:bg-purple-500 disabled:bg-white disabled:text-gray-400">
+          <button type="button" data-action="decrement" disabled={assigns.value == 0} class="rounded-md bg-violet-100 px-2 hover:bg-violet-800 hover:text-white active:bg-violet-500 disabled:bg-white disabled:text-gray-400">
               <.icon name="hero-minus-circle-mini" class="h-4 w-4" />
           </button>
             <input
             type="number"
             phx-hook="CustomCounterInput"
             class={[
-              "block w-full rounded-lg  border-purple-300 py-[7px] px-[11px]",
+              "block w-full rounded-lg  border-violet-300 py-[7px] px-[11px]",
               "text-zinc-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6 text-right",
-              "phx-no-feedback:border-purple-300 phx-no-feedback:focus:border-purple-400 phx-no-feedback:focus:ring-zinc-800/5",
-              "border border-purple-300 focus:border-purple-400 focus:ring-zinc-800/5",
+              "phx-no-feedback:border-violet-300 phx-no-feedback:focus:border-violet-400 phx-no-feedback:focus:ring-zinc-800/5",
+              "border border-violet-300 focus:border-violet-400 focus:ring-zinc-800/5",
               @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-400/10"
             ]}
             id={@id || @name}
@@ -540,7 +540,7 @@ defmodule DigistabStoreWeb.CoreComponents do
             value={Phoenix.HTML.Form.normalize_value("number", @value)}
             {@rest}
             />
-          <button type="button" data-action="increment" class="rounded-md bg-purple-100 px-2 hover:bg-purple-800 hover:text-white active:bg-purple-500">
+          <button type="button" data-action="increment" class="rounded-md bg-violet-100 px-2 hover:bg-violet-800 hover:text-white active:bg-violet-500">
               <.icon name="hero-plus-circle-mini" class="h-4 w-4" />
           </button>
           <style>
@@ -574,10 +574,10 @@ defmodule DigistabStoreWeb.CoreComponents do
         id={@id || @name}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "block w-full rounded-lg  border-purple-300 py-[7px] px-[11px]",
+          "block w-full rounded-lg  border-violet-300 py-[7px] px-[11px]",
           "text-zinc-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
-          "phx-no-feedback:border-purple-300 phx-no-feedback:focus:border-purple-400 phx-no-feedback:focus:ring-zinc-800/5",
-          " border-purple-300 focus:border-purple-400 focus:ring-zinc-800/5",
+          "phx-no-feedback:border-violet-300 phx-no-feedback:focus:border-violet-400 phx-no-feedback:focus:ring-zinc-800/5",
+          " border-violet-300 focus:border-violet-400 focus:ring-zinc-800/5",
           @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-400/10"
         ]}
         {@rest}
@@ -736,7 +736,7 @@ defmodule DigistabStoreWeb.CoreComponents do
         <tbody
           id={@id}
           phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
-          class="relative divide-y divide-zinc-100 border-t border-purple-200 text-sm leading-6 text-zinc-700"
+          class="relative divide-y divide-zinc-100 border-t border-violet-200 text-sm leading-6 text-zinc-700"
         >
           <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="group hover:bg-zinc-50">
             <td
