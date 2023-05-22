@@ -1,6 +1,6 @@
 <.header>
-  Product <%= @product.id %>
-  <:subtitle>This is a product record from your database.</:subtitle>
+  <%= @product.name %>
+  <:subtitle><%= raw(@product.description) %></:subtitle>
   <:actions>
     <.link patch={~p"/products/#{@product}/show/edit"} phx-click={JS.push_focus()}>
       <.button class="bg-zinc-900 hover:bg-zinc-700">Edit product</.button>
@@ -13,7 +13,7 @@
   <:item title="Price"><%= @product.price %></:item>
   <:item title="Promotional price"><%= @product.promotional_price %></:item>
   <:item title="Stock"><%= @product.stock %></:item>
-  <:item title="Description"><%= @product.description %></:item>
+  <:item title="Description"><%= raw(@product.description) %></:item>
 </.list>
 
 <.back navigate={~p"/products"}>Back to products</.back>

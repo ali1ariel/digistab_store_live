@@ -1,8 +1,11 @@
 defmodule DigistabStore.Store.Product do
-  alias DigistabStore.Store.Status
-  alias DigistabStore.Store.Category
   use Ecto.Schema
   import Ecto.Changeset
+
+  alias DigistabStore.Store
+  alias Store.Status
+  alias Store.Category
+  alias Store.ProductPhoto
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -16,8 +19,10 @@ defmodule DigistabStore.Store.Product do
     field :status_name, :string, virtual: true
     field :category_name, :string, virtual: true
 
-    belongs_to :status, Status
-    belongs_to :category, Category
+    belongs_to :status, Status, on_replace: :delete
+    belongs_to :category, Category, on_replace: :delete
+
+    has_many :photos, ProductPhoto
 
     timestamps()
   end
@@ -31,8 +36,6 @@ defmodule DigistabStore.Store.Product do
       :promotional_price,
       :description,
       :stock,
-      :status_name,
-      :category_name,
       :status_id,
       :category_id
     ])

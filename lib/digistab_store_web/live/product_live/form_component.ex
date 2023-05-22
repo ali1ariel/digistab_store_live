@@ -30,8 +30,8 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
             <.live_upload uploads={@uploads.photos} myself={@myself}/>
           </div>
           <div class="grid grid-rows-3 gap-4 rounded-md bg-white p-4 sm:grid-cols-3 sm:grid-rows-none">
-            <.input field={@form[:price]} type="price" label="Price"  value={0} />
-            <.input field={@form[:promotional_price]} type="price" label="Promotional price" value={0} />
+            <.input field={@form[:price]} type="price" label="Price" />
+            <.input field={@form[:promotional_price]} type="price" label="Promotional price" />
             <.input field={@form[:stock]} type="custom_counter" label="Stock" />
           </div>
         </div>

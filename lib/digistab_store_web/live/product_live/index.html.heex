@@ -16,7 +16,7 @@
   <:col :let={{_id, product}} label="Price"><%= product.price %></:col>
   <:col :let={{_id, product}} label="Promotional price"><%= product.promotional_price %></:col>
   <:col :let={{_id, product}} label="Stock"><%= product.stock %></:col>
-  <:col :let={{_id, product}} label="Description"><%= product.description %></:col>
+  <:col :let={{_id, product}} label="Description"><%= raw(product.description) %></:col>
   <:action :let={{_id, product}}>
     <div class="sr-only">
       <.link navigate={~p"/products/#{product}"}>Show</.link>

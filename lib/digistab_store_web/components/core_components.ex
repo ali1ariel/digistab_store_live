@@ -606,7 +606,7 @@ defmodule DigistabStoreWeb.CoreComponents do
   end
 
   defp set_comma_separator(value) do
-    if value == 0 do
+    if value in [0, nil] do
       "0,00"
     else
       {first, second} =
