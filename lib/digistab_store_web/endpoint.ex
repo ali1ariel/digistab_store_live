@@ -36,6 +36,11 @@ defmodule DigistabStoreWeb.Endpoint do
     param_key: "request_logger",
     cookie_key: "request_logger"
 
+
+  plug CORSPlug,
+    origin: "*",
+    methods: ["GET", "POST", "DELETE", "PUT"]
+
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
