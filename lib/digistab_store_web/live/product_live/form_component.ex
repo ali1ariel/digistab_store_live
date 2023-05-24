@@ -3,6 +3,13 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
 
   alias DigistabStore.Store
 
+  @config %{
+    bucket: System.fetch_env!("AWS_BUCKET_NAME"),
+    region: System.fetch_env!("AWS_REGION"),
+    access_key_id: System.fetch_env!("AWS_ACCESS_KEY_ID"),
+    secret_access_key: System.fetch_env!("AWS_SECRET_ACCESS_KEY")
+  }
+
   @impl true
   def render(assigns) do
     ~H"""
@@ -152,7 +159,7 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
 
     {:ok,
      socket
-     |> allow_upload(:photos, accept: ~w(.jpg .jpeg .png), max_entries: 5)
+     |> allow_upload(:photos, accept: ~w(.jpg .jpeg .png), max_entries: 5, external: &presign_upload/2)
      |> assign(initial_assigns())
      |> assign(assigns)
      |> assign_form(changeset)}
@@ -199,8 +206,33 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
       |> validate_stock()
       |> save_custom_select("status", socket.assigns.status_collection)
       |> save_custom_select("category", socket.assigns.categories_collection)
+      |> Map.put("photos", put_photos_url(socket, %{}))
 
     save_product(socket, socket.assigns.action, product_params)
+  end
+
+  defp put_photos_url(socket, product) do
+    {completed, []} = uploaded_entries(socket, :photos)
+    urls =
+      for entry <- completed do
+        key = "digistab_store/products/#{entry.client_name}"
+
+        dest = Path.join("#{@config.bucket}.s3.amazonaws.com", key)
+
+        %{"url" => dest}
+      end
+  end
+
+  defp ext(entry) do
+    [ext | _] = MIME.extensions(entry.client_type)
+    ext
+  end
+
+  def consume_photos(socket, product) do
+    consume_uploaded_entries(socket, :photos, fn meta, entry ->
+      :ok
+    end)
+    {:ok, product}
   end
 
   def handle_event("select-tag", %{"id" => tag_id}, socket) do
@@ -359,5 +391,21 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
       |> List.first()
       |> then(&"#{&1}...")
     end
+  end
+
+  defp presign_upload(entry, socket) do
+    uploads = socket.assigns.uploads
+    key = "digistab_store/products/#{entry.client_name}"
+
+    {:ok, fields} =
+      SimpleS3Upload.sign_form_upload(@config, @config.bucket,
+        key: key,
+        content_type: entry.client_type,
+        max_file_size: uploads[entry.upload_config].max_file_size,
+        expires_in: :timer.hours(1)
+      )
+
+    meta = %{uploader: "S3", key: key, url: "http://#{@config.bucket}.s3-#{@config.region}.amazonaws.com", fields: fields}
+    {:ok, meta, socket}
   end
 end

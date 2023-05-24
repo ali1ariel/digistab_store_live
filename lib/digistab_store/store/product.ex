@@ -43,5 +43,6 @@ defmodule DigistabStore.Store.Product do
     |> validate_number(:stock, greater_than_or_equal_to: 0)
     |> cast_assoc(:status)
     |> cast_assoc(:category)
+    |> cast_assoc(:photos)
   end
 end

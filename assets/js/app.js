@@ -27,12 +27,10 @@ import {
 import topbar from "../vendor/topbar";
 import Alpine from "alpinejs";
 import Hooks from "./hooks";
+import Uploaders from "./uploaders";
 
 window.Alpine = Alpine;
 Alpine.start()
-
-
-
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
@@ -46,7 +44,8 @@ let liveSocket = new LiveSocket("/live", Socket, {
             }
         }
     },
-    hooks: Hooks
+    hooks: Hooks,
+    uploaders: Uploaders
 })
 
 // Show progress bar on live navigation and form submits

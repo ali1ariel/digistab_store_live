@@ -21,6 +21,6 @@ defmodule DigistabStore.Store.ProductPhoto do
   def changeset(product_photo, attrs) do
     product_photo
     |> cast(attrs, [:url, :description, :main?])
-    |> validate_required([:url, :description, :main?])
+    |> validate_required([:url])
   end
 end
