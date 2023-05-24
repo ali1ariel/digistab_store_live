@@ -91,8 +91,8 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
     ~H"""
       <div class="flex flex-col">
       <div class="flex flex-col justify-around md:flex-row">
-        <div class={"flex h-fit flex-col rounded-md bg-violet-200 shadow-inner " <> if (length(@uploads.entries) < 5), do: " w-full md:w-2/3", else: " w-full"} :if={has_uploads?(@uploads.entries)}>
-          <div class={"flex h-fit flex-row " <> if (has_uploads?(@uploads.entries)), do: " overflow-auto scrollbar-thin scrollbar-thumb-violet-300 scrollbar-track-violet-100 scrollbar-rounded-md", else: ""}>
+        <div class={"flex h-fit flex-col rounded-md bg-violet-100 shadow-inner " <> if (length(@uploads.entries) < 5), do: " w-full md:w-2/3", else: " w-full"} :if={has_uploads?(@uploads.entries)}>
+          <div class={"flex h-fit flex-row " <> if (has_uploads?(@uploads.entries)), do: " overflow-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-slate-100 scrollbar-rounded-md", else: ""}>
             <.image_live_preview entry={entry} myself={@myself} :for={entry <- @uploads.entries}/>
           </div>
         </div>
@@ -159,7 +159,7 @@ defmodule DigistabStoreWeb.ProductLive.FormComponent do
 
     {:ok,
      socket
-     |> allow_upload(:photos, accept: ~w(.jpg .jpeg .png), max_entries: 5, external: &presign_upload/2)
+     |> allow_upload(:photos, accept: ~w(.jpg .jpeg .png), max_entries: 5, external: &presign_upload/2, max_file_size: 10_000_000)
      |> assign(initial_assigns())
      |> assign(assigns)
      |> assign_form(changeset)}
